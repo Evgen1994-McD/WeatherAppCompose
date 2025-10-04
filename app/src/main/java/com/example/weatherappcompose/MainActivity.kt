@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.example.weatherappcompose.screens.MainScreen
 import com.example.weatherappcompose.ui.theme.WeatherAppComposeTheme
 import org.json.JSONObject
 
@@ -37,18 +38,35 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            WeatherAppComposeTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Perm",
-                        modifier = Modifier.padding(innerPadding),
-                        this
-                    )
-                }
-            }
+            MainScreen()
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier, context: Context) {

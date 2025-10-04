@@ -59,4 +59,6 @@ dependencies {
 
     //volley для погоды
     debugImplementation(libs.volley)
+    //Async Image
+    debugImplementation(libs.coil.compose)
 }
