@@ -13,7 +13,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.PrimaryTabRow
 import androidx.compose.material3.Tab
-import androidx.compose.material3.TabIndicatorScope
 import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -36,7 +35,6 @@ import com.example.weatherappcompose.R
 import com.example.weatherappcompose.ui.theme.BlueLight
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
-import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
 
@@ -211,32 +209,4 @@ fun TabLayout() {
     }
 }
 
-
-
-
-
-
-
-
-//
-//
-//        TabRow(
-//            selectedTabIndex = tabIndex,
-//           containerColor = BlueLight,
-//            indicator = { pos ->
-//                TabRowDefaults.Indicator(
-//                    Modifier.pagerTabIndicatorOffset(pagerState, pos)
-//                )
-//            }
-//        ) {
-//            tabList.forEachIndexed { index, text ->
-//                Tab(
-//                    selected = false,
-//                    onClick = {},
-//                    text = { Text(text = text) }
-//                )
-//            }
-//        }
-//
-//    }
 

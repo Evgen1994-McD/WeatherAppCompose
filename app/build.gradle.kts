@@ -65,6 +65,5 @@ dependencies {
         //Pager
     debugImplementation(libs.accompanist.pager)
     implementation (libs.accompanist.pager.indicators)
-//    implementation (libs.androidx.paging.compose)
 
 }
