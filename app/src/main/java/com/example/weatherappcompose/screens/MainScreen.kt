@@ -1,11 +1,8 @@
 package com.example.weatherappcompose.screens
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -14,13 +11,21 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.PrimaryTabRow
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabIndicatorScope
+import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,32 +34,31 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.weatherappcompose.R
 import com.example.weatherappcompose.ui.theme.BlueLight
-
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.pagerTabIndicatorOffset
+import com.google.accompanist.pager.rememberPagerState
+import kotlinx.coroutines.launch
 
 @Preview(showBackground = true)
 @Composable
-fun MainScreen() {
-    Image(
-        painter = painterResource(id = R.drawable.clouds_bg),
-        contentDescription = "im1",
-        modifier = Modifier
-            .fillMaxSize()
-            .alpha(0.7f),
-        contentScale = ContentScale.FillBounds
-    )
+fun MainCard() {
+
 
     Column(
         modifier = Modifier
-            .fillMaxSize()
-            .padding(5.dp, top = 30.dp),
+
+            .padding(top = 30.dp),
     ) {
         Card(
             modifier = Modifier
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .padding(5.dp),
+
 
             elevation = CardDefaults.cardElevation(0.dp),
             shape = RoundedCornerShape(10.dp),
-            colors = CardDefaults.cardColors(containerColor = BlueLight)
+          colors = CardDefaults.cardColors(containerColor = BlueLight)
         ) {
 
             Column(
@@ -125,7 +129,8 @@ fun MainScreen() {
                         )
                     }
 
-                    Text(modifier = Modifier.padding(top = 6.dp),
+                    Text(
+                        modifier = Modifier.padding(top = 6.dp),
                         text = "23°C/12°C",
                         style = TextStyle(
                             fontSize = 16.sp,
@@ -150,3 +155,88 @@ fun MainScreen() {
 
     }
 }
+
+@OptIn(ExperimentalPagerApi::class)
+@Composable
+fun TabLayout() {
+    var state by remember { mutableStateOf(0) }
+    val tabList = listOf("HOURS", "DAYS")
+    val pagerState = rememberPagerState()
+    val tabIndex = pagerState.currentPage
+    val coroutineScope = rememberCoroutineScope()
+    Column(
+        modifier = Modifier
+            .clip(RoundedCornerShape(5.dp))
+            .padding(5.dp)
+    ) {
+
+        PrimaryTabRow(
+            selectedTabIndex = tabIndex,
+            containerColor = BlueLight,
+            contentColor = Color.White ,
+            indicator = @Composable {
+                TabRowDefaults.PrimaryIndicator(
+                    color = Color.White,
+                    height = 4.dp,
+                    width = 80.dp,
+                    modifier = Modifier
+                        .tabIndicatorOffset(tabIndex, false))
+
+            }
+        ) {
+            tabList.forEachIndexed { index, text ->
+                Tab(
+                    selected = false,
+                    onClick = {
+                        coroutineScope.launch {
+                            pagerState.animateScrollToPage(index)
+                        }
+
+                    },
+                    text = { Text(text = text) }
+                )
+            }
+        }
+
+        HorizontalPager(
+            count = tabList.size,
+            state = pagerState,
+            modifier = Modifier.weight(1.0f)
+        ) { index ->
+
+
+
+        }
+
+    }
+}
+
+
+
+
+
+
+
+
+//
+//
+//        TabRow(
+//            selectedTabIndex = tabIndex,
+//           containerColor = BlueLight,
+//            indicator = { pos ->
+//                TabRowDefaults.Indicator(
+//                    Modifier.pagerTabIndicatorOffset(pagerState, pos)
+//                )
+//            }
+//        ) {
+//            tabList.forEachIndexed { index, text ->
+//                Tab(
+//                    selected = false,
+//                    onClick = {},
+//                    text = { Text(text = text) }
+//                )
+//            }
+//        }
+//
+//    }
+

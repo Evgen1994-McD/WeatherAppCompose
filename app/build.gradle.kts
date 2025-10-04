@@ -61,4 +61,10 @@ dependencies {
     debugImplementation(libs.volley)
     //Async Image
     debugImplementation(libs.coil.compose)
+
+        //Pager
+    debugImplementation(libs.accompanist.pager)
+    implementation (libs.accompanist.pager.indicators)
+//    implementation (libs.androidx.paging.compose)
+
 }
