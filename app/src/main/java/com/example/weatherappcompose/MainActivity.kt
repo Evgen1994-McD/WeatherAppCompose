@@ -38,6 +38,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            getData("London", this)
             Image(
                 painter = painterResource(id = R.drawable.clouds_bg),
                 contentDescription = "im1",
@@ -62,70 +63,12 @@ class MainActivity : ComponentActivity() {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier, context: Context) {
-    val state = remember {
-        mutableStateOf("Unknown")
-    }
-
-    Column(modifier = Modifier
-        .fillMaxSize()) {
-
-        Box(modifier= Modifier
-            .fillMaxHeight(0.5f)
-            .fillMaxWidth(),
-            contentAlignment = Alignment.Center
-        ){
-            Text(
-                text = "Temp in $name = ${state.value} C"
-            )
-        }
-        Box(modifier= Modifier
-            .fillMaxHeight()
-            .fillMaxWidth(),
-            contentAlignment = Alignment.BottomCenter
-        ){
-            Button(onClick = {
-getResult(name,state,context)
-            },
-                modifier = Modifier
-                    .padding(5.dp,
-                         bottom = 80.dp)
-                    .fillMaxWidth()
-
-            ) {
-                Text(
-                    text = "Refresh"
-                )
-            }
-        }
-    }
-}
-
-private fun getResult(city:String, state:MutableState<String> ,context: Context){
+private fun getData(city:String,context: Context){
 val url = "https://api.weatherapi.com/v1/current.json"+
         "?key=$API_KEY&"+
         "q=$city"+
+        "&days="+
+        "3"+
         "&aqi=no"
 val queue = Volley.newRequestQueue(context)
 val stringRequest = StringRequest(
@@ -133,8 +76,8 @@ val stringRequest = StringRequest(
     url,
     {
         response ->
+        Log.d("MyLog", "Response $response")
         val obj = JSONObject(response)
-state.value = obj.getJSONObject("current").getString("temp_c")
     },
     {
         error ->
