@@ -19,6 +19,7 @@ import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -160,7 +161,7 @@ fun MainCard() {
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun TabLayout() {
+fun TabLayout(daysList: MutableState<List<WeatherModel>>) {
     var state by remember { mutableStateOf(0) }
     val tabList = listOf("HOURS", "DAYS")
     val pagerState = rememberPagerState()
@@ -207,29 +208,7 @@ fun TabLayout() {
         ) { index ->
             LazyColumn(modifier = Modifier.fillMaxSize()){
               itemsIndexed(
-                  listOf(WeatherModel(
-                      city = "London",
-                      "10:00",
-                      "25C",
-                      "Sunny",
-                      "//cdn.weatherapi.com/weather/64x64/day/176.png",
-                      "",
-                      "",
-                      ""
-                  ),
-                      WeatherModel(
-                          city = "London",
-                          "26/07/2025",
-                          "",
-                          "Sunny",
-                          "//cdn.weatherapi.com/weather/64x64/day/176.png",
-                          "26C",
-                          "12C",
-                          ""
-                      )
-
-
-                  )
+                  daysList.value
               ){
                    _, item ->
 
