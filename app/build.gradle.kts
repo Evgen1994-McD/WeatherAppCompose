@@ -56,4 +56,14 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    //volley для погоды
+    debugImplementation(libs.volley)
+    //Async Image
+    debugImplementation(libs.coil.compose)
+
+        //Pager
+    debugImplementation(libs.accompanist.pager)
+    implementation (libs.accompanist.pager.indicators)
+
 }
