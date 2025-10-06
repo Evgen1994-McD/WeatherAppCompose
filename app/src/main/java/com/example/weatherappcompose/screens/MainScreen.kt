@@ -43,9 +43,9 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
 
-@Preview(showBackground = true)
+
 @Composable
-fun MainCard() {
+fun MainCard(currentDay: MutableState<WeatherModel>) {
 
 
     Column(
@@ -74,14 +74,14 @@ fun MainCard() {
                 ) {
                     Text(
                         modifier = Modifier.padding(top = 8.dp, start = 8.dp),
-                        text = "20 Jun 2025 13:00",
+                        text = currentDay.value.time,
                         style = TextStyle(
                             fontSize = 15.sp,
                             color = Color.White
                         )
                     )
                     AsyncImage(
-                        model = "https://cdn.weatherapi.com/weather/64x64/day/176.png",
+                        model = "https:"+currentDay.value.icon,
                         contentDescription = "im2",
                         modifier = Modifier
                             .size(35.dp)
@@ -91,7 +91,7 @@ fun MainCard() {
                 }
 
                 Text(
-                    text = "Perm",
+                    text = currentDay.value.city,
                     style = TextStyle(
                         fontSize = 24.sp,
                         color = Color.White
@@ -99,7 +99,7 @@ fun MainCard() {
                 )
 
                 Text(
-                    text = "23°С",
+                    text = currentDay.value.currentTemp+"°C",
                     style = TextStyle(
                         fontSize = 65.sp,
                         color = Color.White
@@ -107,7 +107,7 @@ fun MainCard() {
                 )
 
                 Text(
-                    text = "Sunny",
+                    text = currentDay.value.condition,
                     style = TextStyle(
                         fontSize = 16.sp,
                         color = Color.White
@@ -134,7 +134,7 @@ fun MainCard() {
 
                     Text(
                         modifier = Modifier.padding(top = 6.dp),
-                        text = "23°C/12°C",
+                        text = currentDay.value.maxTemp+"°C/"+currentDay.value.minTemp+"°C",
                         style = TextStyle(
                             fontSize = 16.sp,
                             color = Color.White
