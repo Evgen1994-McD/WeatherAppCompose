@@ -67,7 +67,9 @@ class MainActivity : ComponentActivity() {
             )
 
             Column {
-                MainCard(currentDay)
+                MainCard(currentDay, onclickSync = {
+                    getData("Perm", this@MainActivity,daysList, currentDay)
+                })
                 TabLayout(daysList, currentDay)
 
 
