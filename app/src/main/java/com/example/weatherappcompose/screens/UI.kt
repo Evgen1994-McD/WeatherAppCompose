@@ -4,8 +4,10 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -50,6 +52,7 @@ fun MainList(list: List<WeatherModel>, currentDay: MutableState<WeatherModel>){
 fun ListItem(item: WeatherModel, currentDay: MutableState<WeatherModel>) {
     Card(
         modifier = Modifier
+            .height(70.dp)
             .fillMaxWidth()
             .padding(top = 3.dp)
             .clickable{
@@ -73,12 +76,22 @@ fun ListItem(item: WeatherModel, currentDay: MutableState<WeatherModel>) {
                 )
             ) {
                 Text(
+                    style = TextStyle(
+                        fontSize = 18.sp
+                    ),
                     text = item.time,
                     color = Color.White
+
                 )
                 Text(
+                    style = TextStyle(
+                        fontSize = 22.sp
+                    ),
                     text = item.condition,
-                    color = Color.White
+                    color = Color.White,
+                    modifier = Modifier
+                        .padding(top = 10.dp)
+
                 )
             }
 
@@ -91,7 +104,7 @@ fun ListItem(item: WeatherModel, currentDay: MutableState<WeatherModel>) {
             AsyncImage( model = "https:${item.icon}",
                 contentDescription = "im5",
                 modifier = Modifier
-                    .size(35.dp)
+                    .size(45.dp)
                     .padding(end = 8.dp))
 
         }

@@ -78,7 +78,7 @@ fun MainCard(currentDay: MutableState<WeatherModel>, onclickSync:()-> Unit,oncli
                         modifier = Modifier.padding(top = 8.dp, start = 8.dp),
                         text = currentDay.value.time,
                         style = TextStyle(
-                            fontSize = 15.sp,
+                            fontSize = 24.sp,
                             color = Color.White
                         )
                     )
@@ -86,7 +86,7 @@ fun MainCard(currentDay: MutableState<WeatherModel>, onclickSync:()-> Unit,oncli
                         model = "https:"+currentDay.value.icon,
                         contentDescription = "im2",
                         modifier = Modifier
-                            .size(35.dp)
+                            .size(70.dp)
                             .padding(top = 3.dp, end = 8.dp)
                     )
 
