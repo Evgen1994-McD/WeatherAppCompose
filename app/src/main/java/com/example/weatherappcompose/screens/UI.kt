@@ -26,30 +26,55 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import coil.request.CachePolicy
+import coil.request.ImageRequest
 import com.example.weatherappcompose.domain.models.WeatherModel
 import com.example.weatherappcompose.ui.theme.BlueLight
 
 
 @Composable
 fun MainList(list: List<WeatherModel>, currentDay: MutableState<WeatherModel>){
-    LazyColumn(modifier = Modifier.fillMaxSize()){
+    LazyColumn(
+        modifier = Modifier.fillMaxSize(),
+        // Добавляем буфер для предзагрузки элементов
+        contentPadding = androidx.compose.foundation.layout.PaddingValues(vertical = 4.dp)
+    ){
         itemsIndexed(
-           list
-        ){
-                _, item ->
-
+            items = list,
+            key = { index, item -> item.uniqueKey }
+        ){ _, item ->
             ListItem(item = item, currentDay)
         }
     }
 }
 
+// Мемоизированные стили для лучшей производительности
+private val timeTextStyle = TextStyle(
+    fontSize = 18.sp,
+    color = Color.White
+)
+
+private val conditionTextStyle = TextStyle(
+    fontSize = 22.sp,
+    color = Color.White
+)
+
+private val tempTextStyle = TextStyle(
+    fontSize = 25.sp,
+    color = Color.White,
+    fontWeight = FontWeight.Bold
+)
+
 @Composable
 fun ListItem(item: WeatherModel, currentDay: MutableState<WeatherModel>) {
+    
     Card(
         modifier = Modifier
             .height(70.dp)
@@ -57,7 +82,7 @@ fun ListItem(item: WeatherModel, currentDay: MutableState<WeatherModel>) {
             .padding(top = 3.dp)
             .clickable{
                 if (item.hours.isEmpty()) return@clickable
-              currentDay.value = item
+                currentDay.value = item
             },
         colors = CardDefaults.cardColors(containerColor = BlueLight),
         elevation = CardDefaults.cardElevation(0.dp),
@@ -76,42 +101,36 @@ fun ListItem(item: WeatherModel, currentDay: MutableState<WeatherModel>) {
                 )
             ) {
                 Text(
-                    style = TextStyle(
-                        fontSize = 18.sp
-                    ),
-                    text = item.time,
-                    color = Color.White
-
+                    style = timeTextStyle,
+                    text = item.time
                 )
                 Text(
-                    style = TextStyle(
-                        fontSize = 22.sp
-                    ),
+                    style = conditionTextStyle,
                     text = item.condition,
-                    color = Color.White,
-                    modifier = Modifier
-                        .padding(top = 10.dp)
-
+                    modifier = Modifier.padding(top = 10.dp)
                 )
             }
 
             Text(
-                text = item.currentTemp.ifEmpty{ "${item.maxTemp}°С/${item.minTemp}" }+"°С",
-                color = Color.White,
-                style = TextStyle(fontSize = 25.sp)
+                text = item.temperatureDisplayText,
+                style = tempTextStyle
             )
 
-            AsyncImage( model = "https:${item.icon}",
-                contentDescription = "im5",
+            // Оптимизированная загрузка изображений с кэшированием
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(item.imageUrl)
+                    .crossfade(true)
+                    .memoryCachePolicy(CachePolicy.ENABLED)
+                    .diskCachePolicy(CachePolicy.ENABLED)
+                    .build(),
+                contentDescription = "Weather icon",
                 modifier = Modifier
                     .size(45.dp)
-                    .padding(end = 8.dp))
-
+                    .padding(end = 8.dp)
+            )
         }
-
-
     }
-
 }
 
 
