@@ -230,29 +230,33 @@ MainList(list, currentDay)
 }
 
 
-private fun getWeatherByHours(hours: String):List<WeatherModel>{
-if (hours.isEmpty()) return  listOf()
-    val hoursArray = JSONArray(hours)
-    val list = ArrayList<WeatherModel>()
-    for (i in 0 until hoursArray.length()){
-        val item = hoursArray[i] as JSONObject
-        list.add(
-            WeatherModel(
-                "",
-                item.getString("time"),
-                item.getString("temp_c"),
-                item.getJSONObject("condition").getString("text"),
-                item.getJSONObject("condition").getString("icon"),
-                "",
-                "",
-                ""
-
-
-
+private fun getWeatherByHours(hours: String): List<WeatherModel> {
+    if (hours.isEmpty()) return emptyList()
+    
+    return try {
+        val hoursArray = JSONArray(hours)
+        val list = ArrayList<WeatherModel>(hoursArray.length())
+        
+        for (i in 0 until hoursArray.length()) {
+            val item = hoursArray.getJSONObject(i)
+            val condition = item.getJSONObject("condition")
+            
+            list.add(
+                WeatherModel(
+                    city = "",
+                    time = item.getString("time"),
+                    currentTemp = item.getString("temp_c"),
+                    condition = condition.getString("text"),
+                    icon = condition.getString("icon"),
+                    maxTemp = "",
+                    minTemp = "",
+                    hours = ""
+                )
             )
-        )
+        }
+        list
+    } catch (e: Exception) {
+        emptyList()
     }
-return list
-
 }
 

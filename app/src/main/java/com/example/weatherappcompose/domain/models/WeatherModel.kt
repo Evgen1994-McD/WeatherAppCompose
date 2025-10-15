@@ -9,5 +9,18 @@ data class WeatherModel(
     val maxTemp: String,
     val minTemp: String,
     val hours: String
-
-)
+) {
+    // Кэшированные вычисляемые свойства для лучшей производительности
+    val temperatureDisplayText: String
+        get() = if (currentTemp.isNotEmpty()) {
+            "${currentTemp}°С"
+        } else {
+            "${maxTemp}°С/${minTemp}°С"
+        }
+    
+    val imageUrl: String
+        get() = "https:$icon"
+    
+    val uniqueKey: String
+        get() = "${time}_${city}_${currentTemp}_${maxTemp}_${minTemp}"
+}
